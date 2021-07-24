@@ -1,2 +1,2 @@
 # AndroidHelloWorld
-A basic Android HelloWorld app to showcase github action Ci pipeline
+A basic Android HelloWorld app to showcase github action Ci pipeline 
