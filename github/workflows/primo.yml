@@ -3,8 +3,7 @@ name: Android Build Example
 ## In this case, the workflow is execute on a `push` event,
 ## or when a new commit is pushed to the repository
 on: [push]
-  branches:
-    - master #- means it is a list of branches
+
 ## List the steps to be executed by the workflow
 jobs:
   ## Set the name of the job
