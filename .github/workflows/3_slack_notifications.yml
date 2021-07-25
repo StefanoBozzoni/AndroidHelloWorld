@@ -20,7 +20,7 @@ jobs:
        ## files needed for a build, like dependencies, 
        ## so that you don't have to reload them each time we are going to build our app
       - name: Restore Cache
-        uses: actions/cache@v2  ##see the documentation on github marketplace
+      - uses: actions/cache@v2  ##see the documentation on github marketplace
         with:
           path: |
             ~/.gradle/caches
@@ -35,10 +35,9 @@ jobs:
      
       ## Executes the `./gradlew assemble` command to run the app
       - name: Build Project
-        run: ./gradlew assemble
+      - run: ./gradlew assemble
 
       - name: Send notification to slack	
-      - uses: technote-space/workflow-conclusion-action@v1
       - uses: 8398a7/action-slack@v3
         with:
           status: ${{ job.status }}
