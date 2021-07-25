@@ -1,0 +1,38 @@
+name: Android Cached Build Example 2
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+## List the steps to be executed by the workflow
+jobs:
+  ## Set the name of the job
+  myBuildExample:
+    runs-on: ubuntu-latest
+    
+    ## Define a sequence of steps to be executed 
+    steps:
+      - name: Checkout
+      - uses: actions/checkout@v2
+     
+       ## cache is a marketplace action that can be used to save
+       ## files needed for a build, like dependencies, 
+       ## so that you don't have to reload them each time we are going to build our app
+      - name: Restore Cache
+        uses: actions/cache@v2  ##see the documentation on github marketplace
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+       ## Executes the `./gradlew test` command
+      - name: Run Tests
+      - run: ./gradlew test 
+     
+      ## Executes the `./gradlew assemble` command to run the app
+      - name: Build Project
+        run: ./gradlew assemble
