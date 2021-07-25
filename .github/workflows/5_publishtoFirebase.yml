@@ -1,4 +1,4 @@
-name: slack notification Example 3
+name: Android Publish to Firebase Example 4
 on:
   push:
     branches: [ master ]
@@ -8,13 +8,13 @@ on:
 ## List the steps to be executed by the workflow
 jobs:
   ## Set the name of the job
-  myBuildExample3:
+  myBuildExample4:
     runs-on: ubuntu-latest
     
     ## Define a sequence of steps to be executed 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
      
        ## cache is a marketplace action that can be used to save
        ## files needed for a build, like dependencies, 
@@ -25,20 +25,28 @@ jobs:
           path: |
             ~/.gradle/caches
             ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-3-${{ hashFiles('**/*.gradle*') }}
+          key: ${{ runner.os }}-gradle-5-${{ hashFiles('**/*.gradle*') }}
           restore-keys: |
-            ${{ runner.os }}-gradle-3
+            ${{ runner.os }}-gradle-5
 
        ## Executes the `./gradlew test` command
       - name: Run Tests
-        run: ./gradlew test
+      - run: ./gradlew test 
      
       ## Executes the `./gradlew assemble` command to run the app
       - name: Build Project
         run: ./gradlew assemble
 
+      - name: Upload to Firebase App Distribution
+        uses: wzieba/Firebase-Distribution-Github-Action@v1.2.1
+        with:
+          appId: ${{ secrets.FIREBASE_APP_ID }}
+          token: ${{ secrets.FIREBASE_TOKEN }}
+          groups: qa
+          file: app/build/outputs/apk/debug/app-debug.apk
+
       - name: Send notification to slack	
-        uses: 8398a7/action-slack@v3
+      - uses: 8398a7/action-slack@v3
         with:
           status: ${{ job.status }}
           fields: commit,ref,workflow,eventName
