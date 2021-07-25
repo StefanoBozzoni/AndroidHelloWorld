@@ -35,7 +35,9 @@ jobs:
      
       ## Executes the `./gradlew assemble` command to run the app
       - name: Build Project
-        run: ./gradlew assemble
+        env:
+          VERSION_CODE: ${{ github.run_id }}
+        run: ./gradlew assembleDebug
 
       - name: Upload to Firebase App Distribution
         uses: wzieba/Firebase-Distribution-Github-Action@v1.2.1
