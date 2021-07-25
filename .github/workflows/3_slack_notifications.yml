@@ -14,13 +14,13 @@ jobs:
     ## Define a sequence of steps to be executed 
     steps:
       - name: Checkout
-      - uses: actions/checkout@v2
+        uses: actions/checkout@v2
      
        ## cache is a marketplace action that can be used to save
        ## files needed for a build, like dependencies, 
        ## so that you don't have to reload them each time we are going to build our app
       - name: Restore Cache
-      - uses: actions/cache@v2  ##see the documentation on github marketplace
+        uses: actions/cache@v2  ##see the documentation on github marketplace
         with:
           path: |
             ~/.gradle/caches
@@ -31,14 +31,14 @@ jobs:
 
        ## Executes the `./gradlew test` command
       - name: Run Tests
-      - run: ./gradlew test 
+        run: ./gradlew test
      
       ## Executes the `./gradlew assemble` command to run the app
       - name: Build Project
-      - run: ./gradlew assemble
+        run: ./gradlew assemble
 
       - name: Send notification to slack	
-      - uses: 8398a7/action-slack@v3
+        uses: 8398a7/action-slack@v3
         with:
           status: ${{ job.status }}
           fields: commit,ref,workflow,eventName
