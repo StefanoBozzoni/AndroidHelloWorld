@@ -1,4 +1,4 @@
-name: Android Build Example
+name: Android Build Example 1
 ## Set the trigger policy.
 ## In this case, the workflow is execute on a `push` event,
 ## or when a new commit is pushed to the repository
@@ -10,8 +10,8 @@ on:
 
 ## List the steps to be executed by the workflow
 jobs:
-  ## Set the name of the job
-  myBuildExample:
+  ## Set the name of the job 
+  myBuildExample1:
     ## Configure the operating  system the workflow should run on.
     ## In this case, the job on Ubuntu
     runs-on: ubuntu-latest
