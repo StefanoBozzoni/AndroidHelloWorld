@@ -58,7 +58,7 @@ jobs:
           text: |
             ${{ job.status }}:
             https://github.com/StefanoBozzoni/AndroidHelloWorld/actions/runs/${{ github.run_id }}
-          if: always() # Pick up events even if the job fails or is canceled.
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUBREPO_TOKEN }}
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }} # required
+        if: always() # Pick up events even if the job fails or is canceled.
