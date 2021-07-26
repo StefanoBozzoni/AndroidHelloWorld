@@ -1,4 +1,4 @@
-name: Android Publish to Firebase Example 4
+name: Android Publish to Firebase Example 5
 on:
   push:
     branches: [ master ]
@@ -8,7 +8,7 @@ on:
 ## List the steps to be executed by the workflow
 jobs:
   ## Set the name of the job
-  myBuildExample4:
+  myBuildExample5:
     runs-on: ubuntu-latest
     
     ## Define a sequence of steps to be executed 
