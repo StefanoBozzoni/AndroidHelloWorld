@@ -1,4 +1,4 @@
-name: slack notification Example 3
+name: Android Publish to Firebase Example 5
 on:
   push:
     branches: [ master ]
@@ -8,7 +8,7 @@ on:
 ## List the steps to be executed by the workflow
 jobs:
   ## Set the name of the job
-  myBuildExample3:
+  myBuildExample5:
     runs-on: ubuntu-latest
     
     ## Define a sequence of steps to be executed 
@@ -25,9 +25,9 @@ jobs:
           path: |
             ~/.gradle/caches
             ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-3-${{ hashFiles('**/*.gradle*') }}
+          key: ${{ runner.os }}-gradle-5-${{ hashFiles('**/*.gradle*') }}
           restore-keys: |
-            ${{ runner.os }}-gradle-3
+            ${{ runner.os }}-gradle-5
 
        ## Executes the `./gradlew test` command
       - name: Run Tests
@@ -35,7 +35,17 @@ jobs:
      
       ## Executes the `./gradlew assemble` command to run the app
       - name: Build Project
-        run: ./gradlew assemble
+        env:
+          VERSION_CODE: ${{ github.run_id }}
+        run: ./gradlew assembleDebug
+
+      - name: Upload to Firebase App Distribution
+        uses: wzieba/Firebase-Distribution-Github-Action@v1.2.1
+        with:
+          appId: ${{ secrets.FIREBASE_APP_ID }}
+          token: ${{ secrets.FIREBASE_TOKEN }}
+          groups: qa
+          file: app/build/outputs/apk/debug/app-debug.apk
 
       - name: Send notification to slack	
         uses: 8398a7/action-slack@v3
@@ -48,7 +58,7 @@ jobs:
           text: |
             ${{ job.status }}:
             https://github.com/StefanoBozzoni/AndroidHelloWorld/actions/runs/${{ github.run_id }}
-          if: always() # Pick up events even if the job fails or is canceled.
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUBREPO_TOKEN }}
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }} # required
+        if: always() # Pick up events even if the job fails or is canceled.
