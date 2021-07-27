@@ -1,0 +1,34 @@
+name: Android Build Example
+## Set the trigger policy.
+## In this case, the workflow is execute on a `push` event,
+## or when a new commit is pushed to the repository
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+## List the steps to be executed by the workflow
+jobs:
+  ## Set the name of the job
+  myBuildExample1:
+    ## Configure the operating  system the workflow should run on.
+    ## In this case, the job on Ubuntu
+    runs-on: ubuntu-latest
+
+    ## Define a sequence of steps to be executed
+    steps:
+      ## Use the public `checkout` action in version v2
+      ## to checkout the existing code in the repository
+      - uses: actions/checkout@v2
+      #- name: Set Up JDK
+      #  uses: actions/setup-java@v2
+      #  with java-version: 1.8
+
+      ## Executes the `./gradlew test` command
+      - name: Run Tests
+        run: ./gradlew test
+
+      ## Executes the `./gradlew assemble` command to run the app
+      - name: Build Project
+        run: ./gradlew assemble
